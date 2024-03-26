@@ -6,6 +6,8 @@ import os
 import sys
 # Add I-Simpa folder in lib path
 from os.path import dirname
+import defusedxml.minidom
+
 libpath = dirname(os.path.abspath(__file__ + "/../../"))
 sys.path.append(libpath)
 try:
@@ -26,7 +28,6 @@ import sauve_recponct_results
 import math
 import codecs
 from sound_level_layer import SoundLevelLayer
-import xml.dom.minidom  as xmlWriter
 from build_recsurf import GetRecepteurSurfList
 
 try:
@@ -92,7 +93,7 @@ def runTC(xmlPathTc, coreconf):
         print("Cant find classical theory program!\n %s" % tcpath, file=sys.stderr)
         exit()
     # One configuration file per source with different output path
-    doc = xmlWriter.parse(xmlPathTc)
+    doc = defusedxml.minidom.parse(xmlPathTc)
     simunode=doc.getElementsByTagName('simulation')[0]
     srclstnode=doc.getElementsByTagName('sources')[0]
     sources=srclstnode.getElementsByTagName('source')
